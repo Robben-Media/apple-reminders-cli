@@ -1,7 +1,20 @@
 package main
 
-import "fmt"
+import (
+	"os"
+
+	"github.com/Robben-Media/apple-reminders-cli/cmd/appre/commands"
+)
+
+var (
+	version   = "dev"
+	buildTime = "unknown"
+)
 
 func main() {
-	fmt.Println("appre - Apple Reminders CLI")
+	commands.SetBuildInfo(version, buildTime)
+	if err := commands.Execute(); err != nil {
+		commands.WriteErrorJSON(err.Error())
+		os.Exit(1)
+	}
 }
