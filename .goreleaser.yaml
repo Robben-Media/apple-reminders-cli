@@ -1,0 +1,30 @@
+version: 2
+
+project_name: apple-reminders-cli
+
+changelog:
+  disable: true
+
+builds:
+  - id: appre
+    main: ./cmd/appre
+    binary: appre
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{ .Version }}
+      - -X main.buildTime={{ .Date }}
+
+archives:
+  - id: appre
+    formats: ["tar.gz"]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
